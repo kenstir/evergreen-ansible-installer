@@ -1,3 +1,5 @@
+- set_fact: eg_basename="{{eg_tarball | basename | regex_replace('\.tar\.gz', '')}}"
+- set_fact: eg_dir="{{repo_base}}/{{eg_basename}}"
 - name: Download Evergreen
   get_url:
     url: "{{eg_tarball}}"
@@ -6,7 +8,6 @@
   unarchive:
     src: "{{repo_base}}/{{eg_basename}}.tgz"
     dest: "{{repo_base}}"
-- set_fact: eg_dir="{{repo_base}}/{{eg_tarball | basename  | regex_replace('\.tar\.gz', '')}}"
 - name: Install Evergreen Prereqs
   become: true
   shell: >

@@ -1,0 +1,33 @@
+- name: Download Evergreen
+  get_url:
+    url: "{{eg_tarball}}"
+    dest: "{{repo_base}}/Evergreen.tgz"
+- name: Unarchive Evergreen
+  unarchive:
+    src: "{{repo_base}}/Evergreen.tgz"
+    dest: "{{repo_base}}"
+- set_fact: eg_dir="{{repo_base}}/{{eg_tarball | basename  | regex_replace('\.tar\.gz', '')}}"
+- name: Install Evergreen Prereqs
+  become: true
+  shell: >
+    cd {{eg_dir}}
+    && PERL_MM_USE_DEFAULT=1 make -f 
+    Open-ILS/src/extras/Makefile.install {{os_build_target}}
+- name: Set ownership of {{eg_dir}} to {{deploy_user}}
+  become: true
+  file: dest={{eg_dir}} owner={{deploy_user}} group={{deploy_user}} recurse=yes
+- name: Install Prerequisites
+  environment:
+    PATH: "{{ansible_env.PATH}}:{{eg_install_path}}/bin"
+  shell: >
+    cd {{eg_dir}}
+    && make -f Open-ILS/src/extras/Makefile.install ubuntu-xenial
+- name: Build Evergreen
+  become: true
+  become_user: opensrf
+  environment:
+    PATH: "{{ansible_env.PATH}}:{{eg_install_path}}/bin"
+  shell: >
+    cd {{eg_dir}}
+    && ./configure --prefix={{eg_install_path}} --sysconfdir={{eg_install_path}}/conf 
+    && make

@@ -8,8 +8,13 @@ eg_git_repository: git://git.evergreen-ils.org/Evergreen.git
 websocketd_version: 0.3.0
 websocketd_package: websocketd-{{websocketd_version}}-linux_amd64.zip
 websocketd_url: https://github.com/joewalnes/websocketd/releases/download/v{{websocketd_version}}/{{websocketd_package}}
-osrf_git_branch: master
-eg_git_branch: master
+
+osrf_git_branch: rel_3_0_2
+#eg_git_branch: rel_3_1
+#osrf_tarball: https://evergreen-ils.org/downloads/opensrf-3.0.2.tar.gz
+eg_tarball: https://evergreen-ils.org/downloads/Evergreen-ILS-3.1.9.tar.gz
+eg_stamp_id: rel_3_1_1
+eg_dir: "{{repo_base}}/{{eg_tarball | basename | regex_replace('\\.tar\\.gz', '')}}"
 
 # 'no'  == build will fail on local changes
 # 'yes' == local changes will be destroyed
@@ -25,14 +30,8 @@ eg_clone_depth: 0
 # Root directory for all OpenSRF/Evergreen install files.
 eg_install_path: /openils
 
-# XUL client server version stamp.
-# This should match the Target Server ID of the intended XUL client.
-# Note however, symlinks can be added after the fact by hand to 
-# support different XUL client versions.
-eg_stamp_id: master
-
 eg_admin_user: admin
-eg_admin_pass: demo123
+eg_admin_pass: xyzzy
 
 ejabberd_password: password
 jabber_domain: localhost
@@ -85,7 +84,7 @@ use_service_websocketd: true
 start_services: true
 
 # Database Settings --------------------------------------------------------
-install_database: true
+install_database: false
 
 # Install Postgres 9.6 from the PG apt repository?
 use_pg_96: false
@@ -97,11 +96,10 @@ database_password: evergreen
 database_database: evergreen
 
 # Create the Evergreen schema?
-create_schema: true
+create_schema: false
 
 # set to empty value to avoid loading sample data
-# Only used when create_schema=true
-load_sample_data: --load-all-sample
+#load_sample_data: --load-all-sample
 
 # Install the PGTAP extension for database unit tests?
 # Requires create_schema=true

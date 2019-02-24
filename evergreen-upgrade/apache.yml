@@ -1,34 +1,22 @@
 # Apache
-- name: Stop Apache2
-  become: true
-  service: name=apache2 state=stopped
 - name: Setup eg.conf
   become: true
   copy:
     remote_src: true
-    src: "{{repo_base}}/Evergreen/Open-ILS/examples/apache_24/eg_24.conf"
+    src: "{{eg_dir}}/Open-ILS/examples/apache_24/eg_24.conf"
     dest: /etc/apache2/sites-available/eg.conf
 - name: Setup eg_vhost.conf
   become: true
   copy:
     remote_src: true
-    src: "{{repo_base}}/Evergreen/Open-ILS/examples/apache_24/eg_vhost_24.conf"
+    src: "{{eg_dir}}/Open-ILS/examples/apache_24/eg_vhost_24.conf"
     dest: /etc/apache2/eg_vhost.conf 
 - name: Setup eg_startup
   become: true
   copy:
     remote_src: true
-    src: "{{repo_base}}/Evergreen/Open-ILS/examples/apache_24/eg_startup"
+    src: "{{eg_dir}}/Open-ILS/examples/apache/eg_startup"
     dest: /etc/apache2/              
-#- name: Create SSL Certs directory
-#  become: true
-#  file: path=/etc/apache2/ssl state=directory
-#- name: Setup SSL Certs
-#  become: true
-#  shell: >
-#    cd /etc/apache2/ssl
-#    && openssl req -new -x509 -days 365 -nodes -out server.crt
-#    -keyout server.key -subj "/C=XX/ST=XX/L=XX/O=XX/OU=XX/CN={{web_domain}}"
 - name: Disable mpm_event
   become: true
   shell: /usr/sbin/a2dismod mpm_event

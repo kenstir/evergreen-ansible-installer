@@ -4,6 +4,7 @@
   with_items:
     - make
     - git
+    - unzip
 - name: Create opensrf user
   become: true
   user:

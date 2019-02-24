@@ -1,0 +1,8 @@
+- name: Build Evergreen
+  include: eg-build.yml
+- name: Install Evergreen
+  include: eg-install.yml
+- name: Setup Apache
+  include: apache.yml
+- name: Install Database
+  include: database.yml

@@ -25,3 +25,6 @@
   become: true
   shell: systemctl restart websocketd-osrf
   when: use_service_websocketd
+- name : Restarting memcached
+  become: true
+  shell: systemctl restart memcached

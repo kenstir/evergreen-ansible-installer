@@ -6,16 +6,14 @@
   become_method: sudo
   vars_files:
     - settings.yml
+    - local_settings.yml
   tasks:
   - name: Restart memcached
     become: true
     service: name=memcached state=restarted
   - name: Start OpenSRF
     become: true
-    become_user: opensrf
-    environment:
-      PATH: "{{ansible_env.PATH}}:{{eg_install_path}}/bin"
-    shell: osrf_control --localhost --restart-all
+    service: name=opensrf state=restarted
   - name: Running Autogen
     become: true
     become_user: opensrf
@@ -27,4 +25,4 @@
     service: name=apache2 state=restarted
   - name: Start websockets
     become: true
-    shell: apache2ctl-websockets start
+    service: name=websocketd-osrf state=restarted

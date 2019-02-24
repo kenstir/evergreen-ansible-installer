@@ -1,0 +1,30 @@
+# OpenSRF / Evergreen Ansible Installer Playbook
+# Author: Bill Erickson <berickxx@gmail.com>
+
+- hosts: '{{hosts}}'
+  remote_user: '{{deploy_user}}'
+  become_method: sudo
+  vars_files:
+    - settings.yml
+  tasks:
+  - name: Restart memcached
+    become: true
+    service: name=memcached state=restarted
+  - name: Start OpenSRF
+    become: true
+    become_user: opensrf
+    environment:
+      PATH: "{{ansible_env.PATH}}:{{eg_install_path}}/bin"
+    shell: osrf_control --localhost --restart-all
+  - name: Running Autogen
+    become: true
+    become_user: opensrf
+    environment:
+      PATH: "{{ansible_env.PATH}}:{{eg_install_path}}/bin"
+    shell: autogen.sh
+  - name: Start Apache
+    become: true
+    service: name=apache2 state=restarted
+  - name: Start websockets
+    become: true
+    shell: apache2ctl-websockets start

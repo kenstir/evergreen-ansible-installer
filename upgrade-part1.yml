@@ -13,10 +13,10 @@
     service: name=apache2 state=stopped
   - name: Stop OpenSRF
     become: true
-    become_user: opensrf
-    environment:
-        PATH: "{{ansible_env.PATH}}:{{eg_install_path}}/bin"
-    shell: osrf_control --localhost --stop-all
+    service: name=opensrf state=stopped
+  - name: Stop Websocketd
+    become: true
+    service: name=websocketd-osrf state=stopped
   - name: Process OpenSRF Tasks
     include: opensrf/main.yml
   - name: Process Evergreen Tasks

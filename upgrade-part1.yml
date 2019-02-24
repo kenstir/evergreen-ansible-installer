@@ -21,5 +21,5 @@
     include: opensrf/main.yml
   - name: Process Evergreen Tasks
     include: evergreen-upgrade/main.yml
-  - name: Process Optional Items
-    include: extras/main.yml
+#  - name: Process Optional Items
+#    include: extras/main.yml

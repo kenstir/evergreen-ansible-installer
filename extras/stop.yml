@@ -3,20 +3,11 @@
   service: name=apache2 state=stopped
 - name: Stop OpenSRF
   become: true
-  become_user: opensrf
-  environment:
-    PATH: "{{ansible_env.PATH}}:{{eg_install_path}}/bin"
-  shell: osrf_control --localhost --restart-all
-  when: not use_service_opensrf
-  ignore_errors: true
-- name: Stop OpenSRF
-  become: true
-  service: name=openstr state=stopped
+  service: name=opensrf state=stopped
   when: use_service_opensrf
   ignore_errors: true
 - name: Stop Websocketd
   become: true
   service: name=websocketd-osrf state=stopped
-  shell: systemctl restart websocketd-osrf
   when: use_service_websocketd
   ignore_errors: true

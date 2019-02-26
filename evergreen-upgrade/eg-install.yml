@@ -4,19 +4,7 @@
     PATH: "{{ansible_env.PATH}}:{{eg_install_path}}/bin"
   shell: >
     cd {{eg_dir}}
-    && make STAFF_CLIENT_STAMP_ID={{eg_stamp_id}} install
-- name: Create XUL Current Symlink
-  become: true
-  file:
-    state: link
-    src: "{{eg_install_path}}/var/web/xul/{{eg_stamp_id}}"
-    dest: "{{eg_install_path}}/var/web/xul/current"
-- name: Create XUL Server Symlink
-  become: true
-  file:
-    state: link
-    src: "{{eg_install_path}}/var/web/xul/current/server"
-    dest: "{{eg_install_path}}/var/web/xul/server"
+    && make install
 - name: Setup opensrf.xml config file
   become: true
   copy:

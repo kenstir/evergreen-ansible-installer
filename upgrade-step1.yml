@@ -8,18 +8,14 @@
     - settings.yml
     - local_settings.yml
   tasks:
-  - name: Stop Apache
-    become: true
-    service: name=apache2 state=stopped
-  - name: Stop OpenSRF
-    become: true
-    service: name=opensrf state=stopped
-  - name: Stop Websocketd
-    become: true
-    service: name=websocketd-osrf state=stopped
+  - name: Stop Services
+    include: extras/stop.yml
   - name: Process OpenSRF Tasks
     include: opensrf/main.yml
-  - name: Process Evergreen Tasks
-    include: evergreen-upgrade/main.yml
+  - name: Install Services
+    include: extras/services.yml
+
+#  - name: Process Evergreen Tasks
+#    include: evergreen-upgrade/main.yml
 #  - name: Process Optional Items
 #    include: extras/main.yml

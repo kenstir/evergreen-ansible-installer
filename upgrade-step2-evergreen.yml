@@ -1,0 +1,14 @@
+# OpenSRF / Evergreen Ansible Installer Playbook
+# Author: Bill Erickson <berickxx@gmail.com>
+
+- hosts: '{{hosts}}'
+  remote_user: '{{deploy_user}}'
+  become_method: sudo
+  vars_files:
+    - settings.yml
+    - local_settings.yml
+  tasks:
+  - name: Stop Services
+    include: extras/stop.yml
+  - name: Process Evergreen Tasks
+    include: evergreen-upgrade/main.yml

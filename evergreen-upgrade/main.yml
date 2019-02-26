@@ -4,5 +4,5 @@
   include: eg-install.yml
 #- name: Setup Apache
 #  include: apache.yml
-- name: Install Database
-  include: database.yml
+#- name: Install Database
+#  include: database.yml

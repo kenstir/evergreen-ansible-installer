@@ -1,0 +1,19 @@
+- name: Stopping Services
+  become: true
+  become_user: opensrf
+  environment:
+    PATH: "{{ansible_env.PATH}}:{{eg_install_path}}/bin"
+  shell: osrf_control --localhost --restart-all
+  when: not use_service_opensrf | bool
+- name: Starting Services (systemd)
+  become: true
+# NOTE: ansible 2.2 adds a service: use=systemd flag
+  shell: systemctl stop opensrf.service
+  when: use_service_opensrf | bool
+- name: Stopping Apache
+  become: true
+  service: name=apache2 state=stopped
+- name: Stopping Websockets
+  become: true
+  shell: systemctl stop websocketd-osrf
+  when: use_service_websocketd | bool

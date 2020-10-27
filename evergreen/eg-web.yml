@@ -43,4 +43,5 @@
   shell: >
     cd {{repo_base}}/Evergreen/Open-ILS/src/eg2
     && npm run test
-
+  # 2020-10-26 kenstir: WSL2 bionic spike: ignore errors caused by wslpath inside karma-firefox-launcher
+  ignore_errors: true
